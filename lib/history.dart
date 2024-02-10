@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'report.dart';
 
 class HistoryPage extends StatelessWidget {
   @override
@@ -15,8 +16,8 @@ class HistoryPage extends StatelessWidget {
                 'History',
                 style: TextStyle(
                     fontSize: 20,
-                    color: theme
-                        .colorScheme.inversePrimary), // Change label color here
+                    color:
+                        theme.colorScheme.primary), // Change label color here
               ),
             ),
             SizedBox(height: 40),
@@ -37,12 +38,14 @@ class HistoryPage extends StatelessWidget {
               title: 'Test Recording 1',
               duration: '60 sec',
               date: '07.12.2023',
+              id: 1,
             ),
             SizedBox(height: 15),
             HistoryRecording(
               title: 'Test Recording 2',
               duration: '120 sec',
               date: '07.12.2023',
+              id: 2,
             ),
           ],
         ),
@@ -55,12 +58,14 @@ class HistoryRecording extends StatelessWidget {
   final String title;
   final String date;
   final String duration;
+  final int id;
 
   const HistoryRecording({
     Key? key,
     required this.title,
     required this.date,
     required this.duration,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -68,7 +73,7 @@ class HistoryRecording extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
 
     return Dismissible(
-      key: Key('generated_id'),
+      key: Key(id.toString()),
       direction: DismissDirection.endToStart,
       onDismissed: (DismissDirection direction) {
         // TODO
@@ -94,6 +99,12 @@ class HistoryRecording extends StatelessWidget {
                 color:
                     theme.colorScheme.onBackground), // Change label color here
           ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Report(id: id)),
+            );
+          },
         ),
       ),
     );

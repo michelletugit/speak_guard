@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
             currentPageIndex = index;
           });
         },
-        indicatorColor: theme.colorScheme.inversePrimary,
+        indicatorColor: theme.colorScheme.primary,
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
@@ -74,8 +74,8 @@ class HomePage extends StatelessWidget {
                 'Home',
                 style: TextStyle(
                     fontSize: 20,
-                    color: theme
-                        .colorScheme.inversePrimary), // Change label color here
+                    color:
+                        theme.colorScheme.primary), // Change label color here
               ),
             ),
             SizedBox(height: 40),
@@ -87,8 +87,7 @@ class HomePage extends StatelessWidget {
                 color: theme.colorScheme.background, // Color of the border
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color:
-                      theme.colorScheme.inversePrimary, // Color of the border
+                  color: theme.colorScheme.primary, // Color of the border
                   width: 8, // Width of the border
                 ),
               ),
@@ -111,8 +110,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
-                  color: theme
-                      .colorScheme.inversePrimary), // Change label color here
+                  color: theme.colorScheme.primary), // Change label color here
             ),
             Text(
               'SPEECH MODERATION MONITOR',
@@ -123,11 +121,11 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 50),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20),
+                textStyle: const TextStyle(fontSize: 18),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.0)),
-                minimumSize: Size(double.infinity, 50),
-                backgroundColor: theme.colorScheme.inversePrimary,
+                    borderRadius: BorderRadius.circular(8.0)),
+                minimumSize: Size(double.infinity, 45),
+                backgroundColor: theme.colorScheme.primary,
               ),
               onPressed: () {
                 Navigator.push(
