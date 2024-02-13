@@ -62,18 +62,6 @@ class _SignInState extends State<SignIn> {
           credentials,
         );
 
-        // DatabaseHelper db = DatabaseHelper();
-        // await db.connect();
-        // await db.printAllUsers();
-        /*
-        if (userName != null) {
-          db.addUserIfNotExists(userId, userName);
-        } else {
-          db.addUserIfNotExists(userId, 'User');
-        }*/
-
-        // await db.disconnect();
-
         // Update global state with authenticated client and credentials
         Provider.of<AuthenticatedClientModel>(context, listen: false)
             .updateCredentials(credentials, authClient);
@@ -102,7 +90,7 @@ class _SignInState extends State<SignIn> {
             TextButton(
               child: Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop(); // Dismiss the dialog
+                Navigator.of(context).pop();
               },
             ),
           ],

@@ -14,10 +14,8 @@ class HistoryPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 'History',
-                style: TextStyle(
-                    fontSize: 20,
-                    color:
-                        theme.colorScheme.primary), // Change label color here
+                style:
+                    TextStyle(fontSize: 20, color: theme.colorScheme.primary),
               ),
             ),
             SizedBox(height: 40),
@@ -28,8 +26,7 @@ class HistoryPage extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: theme
-                        .colorScheme.onBackground), // Change label color here
+                    color: theme.colorScheme.onBackground),
               ),
             ),
             // TODO: Fetch recordings
@@ -84,12 +81,7 @@ class HistoryRecording extends StatelessWidget {
     return Dismissible(
       key: Key(id.toString()),
       direction: DismissDirection.endToStart,
-      onDismissed: (DismissDirection direction) {
-        // TODO
-        // Implement the delete functionality here
-        // This function will be called when the item is swiped
-        // You can remove the item from your data source
-      },
+      onDismissed: (DismissDirection direction) {},
       child: Card(
         child: ListTile(
           contentPadding: EdgeInsets.all(15),
@@ -98,15 +90,12 @@ class HistoryRecording extends StatelessWidget {
             style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color:
-                    theme.colorScheme.onBackground), // Change label color here
+                color: theme.colorScheme.onBackground),
           ),
           subtitle: Text(
             '$date ($duration)',
-            style: TextStyle(
-                fontSize: 13,
-                color:
-                    theme.colorScheme.onBackground), // Change label color here
+            style:
+                TextStyle(fontSize: 13, color: theme.colorScheme.onBackground),
           ),
           onTap: () {
             Navigator.push(

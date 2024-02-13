@@ -30,14 +30,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Speak Guard',
       theme: FlexThemeData.light(scheme: FlexScheme.sakura),
-      /*ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xffFFC700),
-        ),
-        fontFamily: 'Montserrat bold',
-      ),*/
-
       themeMode: ThemeMode.light,
       home: SignIn(),
     );

@@ -29,23 +29,20 @@ class SettingsPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Settings',
-                style: TextStyle(
-                    fontSize: 20,
-                    color:
-                        theme.colorScheme.primary), // Change label color here
+                style:
+                    TextStyle(fontSize: 20, color: theme.colorScheme.primary),
               ),
             ),
             SizedBox(height: 40),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(
-                  2), // Adjust the padding to control the border width
+              padding: EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: theme.colorScheme.background, // Color of the border
+                color: theme.colorScheme.background,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: theme.colorScheme.primary, // Color of the border
-                  width: 8, // Width of the border
+                  color: theme.colorScheme.primary,
+                  width: 8,
                 ),
               ),
               child: CircleAvatar(
@@ -57,11 +54,8 @@ class SettingsPage extends StatelessWidget {
             Text(
               'Cat Dev',
               style: TextStyle(
-                  fontSize: 15,
-                  color: theme
-                      .colorScheme.inverseSurface), // Change label color here
+                  fontSize: 15, color: theme.colorScheme.inverseSurface),
             ),
-
             SizedBox(height: 70),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -74,7 +68,7 @@ class SettingsPage extends StatelessWidget {
               onPressed: () {},
               child: const Text('Recalibrate Voice'),
             ),
-            SizedBox(height: 50), // Adjust spacing as needed
+            SizedBox(height: 50),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 16),

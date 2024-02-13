@@ -8,8 +8,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'report.dart';
 
-/// Flutter code sample for [NavigationBar].
-
 class Recording extends StatefulWidget {
   const Recording({super.key});
 
@@ -21,7 +19,6 @@ class _RecordingState extends State<Recording> {
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
-  // TODO update _words one last time before sending to the server
   String _words = '';
   double _confidence = 1.0;
 
@@ -96,27 +93,21 @@ class _RecordingState extends State<Recording> {
                   style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      color:
-                          theme.colorScheme.primary), // Change label color here
+                      color: theme.colorScheme.primary),
                 ),
                 Text(
                   'Speak into the microphone',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color:
-                          theme.colorScheme.outline), // Change label color here
+                  style:
+                      TextStyle(fontSize: 16, color: theme.colorScheme.outline),
                 ),
                 SizedBox(height: 50),
                 Text(
                   'Please speak clearly',
-                  style: TextStyle(
-                      fontSize: 10,
-                      color:
-                          theme.colorScheme.outline), // Change label color here
+                  style:
+                      TextStyle(fontSize: 10, color: theme.colorScheme.outline),
                 ),
                 SizedBox(height: 20),
-                if (_speechToText
-                    .isListening) // Conditional display based on _showImage value
+                if (_speechToText.isListening)
                   Image.asset(
                     "assets/audiowave.gif",
                   ),

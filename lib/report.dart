@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Flutter code sample for [NavigationBar].
-
 class Report extends StatelessWidget {
   final String content;
   final String result;
@@ -28,17 +26,14 @@ class Report extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Report',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color:
-                          theme.colorScheme.primary), // Change label color here
+                  style:
+                      TextStyle(fontSize: 20, color: theme.colorScheme.primary),
                 ),
               ),
               SizedBox(height: 40),
               Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(
-                    2), // Adjust the padding to control the border width
+                padding: EdgeInsets.all(2),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.background,
                   shape: BoxShape.circle,
