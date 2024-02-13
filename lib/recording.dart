@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'AuthenticatedClientModel.dart';
 import 'package:googleapis/storage/v1.dart' as storage;
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'report.dart';
 
 /// Flutter code sample for [NavigationBar].
 
@@ -134,18 +134,14 @@ class _RecordingState extends State<Recording> {
                 SizedBox(height: 20),
                 Text(
                   'Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%',
-                  style: TextStyle(
-                      fontSize: 15,
-                      color:
-                          theme.colorScheme.outline), // Change label color here
+                  style:
+                      TextStyle(fontSize: 15, color: theme.colorScheme.outline),
                 ),
                 SizedBox(height: 5),
                 Text(
                   'Recognized words:',
-                  style: TextStyle(
-                      fontSize: 15,
-                      color:
-                          theme.colorScheme.outline), // Change label color here
+                  style:
+                      TextStyle(fontSize: 15, color: theme.colorScheme.outline),
                 ),
                 SizedBox(height: 5),
                 Text(
@@ -160,12 +156,7 @@ class _RecordingState extends State<Recording> {
           floatingActionButton: FloatingActionButton.extended(
             label: Text('analyze'),
             onPressed: () {
-              uploadData(context);
-              /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Recording()),
-              );*/
+              classifyArticle(context, _lastWords);
             },
           ),
         ),
@@ -174,17 +165,17 @@ class _RecordingState extends State<Recording> {
   }
 }
 
-Future<void> uploadData(BuildContext context) async {
-  // file_picker package
+Future<void> uploadData(BuildContext context, String content) async {
+  if (content.isEmpty) {
+    print('No recognized words');
+  }
 
   final model = Provider.of<AuthenticatedClientModel>(context, listen: false);
   final http.Client? client = model.client;
 
-  // Specify your bucket name and file details
   const String bucketName = 'speak_guard_bucket';
   const String objectName = 'test.txt';
   String contentType = 'text/plain'; // MIME type for a text file
-  String content = 'Hello, World!';
 
   if (client != null) {
     final storageApi = storage.StorageApi(client);
@@ -205,14 +196,98 @@ Future<void> uploadData(BuildContext context) async {
   } else {
     debugPrint("Error with client data");
   }
+}
 
-  /*
-  debugPrint("fullPath:" +
-      storageRef.fullPath +
-      " " +
-      "bucket:" +
-      storageRef.bucket +
-      " " +
-      "name:" +
-      storageRef.name); */
+Future<void> classifyArticle(BuildContext context, String content) async {
+  final model = Provider.of<AuthenticatedClientModel>(context, listen: false);
+  final http.Client? client = model.client;
+
+  if (client == null) {
+    print("Client is not authenticated.");
+    return;
+  }
+
+  const projectId = "vast-collective-413319";
+  const region = "us-central1";
+  String url =
+      'https://$region-aiplatform.googleapis.com/v1/projects/$projectId/locations/$region/publishers/google/models/gemini-pro:streamGenerateContent';
+
+  Map<String, dynamic> requestBody = {
+    "contents": [
+      {
+        "role": "user",
+        "parts": [
+          {
+            "text":
+                "Multi-choice problem: Which of the following categories can be identified in the text?\n"
+                    "political incorrectness\n"
+                    "sexism\n"
+                    "racism\n"
+                    "swear words\n"
+                    "hate\n"
+                    "harassment\n\n"
+                    "Text: $content"
+          }
+        ]
+      }
+    ],
+    "generation_config": {
+      "maxOutputTokens": 256,
+      "temperature": 0.2,
+      "topP": 0.8,
+      "topK": 40
+    },
+    "safetySettings": [
+      {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_ONLY_HIGH"},
+      {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_ONLY_HIGH"
+      },
+      {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_ONLY_HIGH"
+      },
+      {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_ONLY_HIGH"}
+    ]
+  };
+
+  try {
+    final response = await client.post(
+      Uri.parse(url),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(requestBody),
+    );
+
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(response.body);
+
+      if (responseJson.isNotEmpty) {
+        var candidates = responseJson[0]['candidates'];
+        if (candidates.isNotEmpty) {
+          var jsoncontent = candidates[0]['content'];
+          var parts = jsoncontent['parts'];
+          if (parts.isNotEmpty) {
+            var result = parts[0]['text'];
+            print("Extracted value: $result");
+            if (result == "None of the above") {
+              result = ":)";
+            }
+            print(content);
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Report(content: content, result: result),
+              ),
+            );
+          }
+        }
+      }
+    } else {
+      print("Failed to classify article. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+    }
+  } catch (e) {
+    print("Error calling Vertex AI: $e");
+  }
 }

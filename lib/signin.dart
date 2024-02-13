@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'home.dart';
 import 'package:provider/provider.dart';
 import 'AuthenticatedClientModel.dart';
+// import 'db.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,6 +43,8 @@ class _SignInState extends State<SignIn> {
     try {
       final GoogleSignInAccount? account = await _googleSignIn.signIn();
       if (account != null) {
+        // final String userId = account.id;
+        // final String? userName = account.displayName;
         final authHeaders = await account.authHeaders;
         final authToken = authHeaders['Authorization']!.split(' ').last;
         final expiry = DateTime.now()
@@ -59,6 +62,18 @@ class _SignInState extends State<SignIn> {
           credentials,
         );
 
+        // DatabaseHelper db = DatabaseHelper();
+        // await db.connect();
+        // await db.printAllUsers();
+        /*
+        if (userName != null) {
+          db.addUserIfNotExists(userId, userName);
+        } else {
+          db.addUserIfNotExists(userId, 'User');
+        }*/
+
+        // await db.disconnect();
+
         // Update global state with authenticated client and credentials
         Provider.of<AuthenticatedClientModel>(context, listen: false)
             .updateCredentials(credentials, authClient);
@@ -69,6 +84,7 @@ class _SignInState extends State<SignIn> {
         );
       }
     } catch (error) {
+      debugPrint("error");
       debugPrint('error: $error');
       _showSignInError();
     }

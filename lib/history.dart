@@ -39,6 +39,9 @@ class HistoryPage extends StatelessWidget {
               duration: '60 sec',
               date: '07.12.2023',
               id: 1,
+              content:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+              result: ":)",
             ),
             SizedBox(height: 15),
             HistoryRecording(
@@ -46,6 +49,8 @@ class HistoryPage extends StatelessWidget {
               duration: '120 sec',
               date: '07.12.2023',
               id: 2,
+              content: "You are stupid",
+              result: "Harassment",
             ),
           ],
         ),
@@ -59,6 +64,8 @@ class HistoryRecording extends StatelessWidget {
   final String date;
   final String duration;
   final int id;
+  final String content;
+  final String result;
 
   const HistoryRecording({
     Key? key,
@@ -66,6 +73,8 @@ class HistoryRecording extends StatelessWidget {
     required this.date,
     required this.duration,
     required this.id,
+    required this.content,
+    required this.result,
   }) : super(key: key);
 
   @override
@@ -102,7 +111,9 @@ class HistoryRecording extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Report(id: id)),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      Report(content: content, result: result)),
             );
           },
         ),

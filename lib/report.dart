@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 /// Flutter code sample for [NavigationBar].
 
 class Report extends StatelessWidget {
-  final int id;
+  final String content;
+  final String result;
 
-  const Report({
-    Key? key,
-    required this.id,
-  }) : super(key: key);
+  const Report({Key? key, required this.content, required this.result})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +40,11 @@ class Report extends StatelessWidget {
                 padding: EdgeInsets.all(
                     2), // Adjust the padding to control the border width
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.background, // Color of the border
+                  color: theme.colorScheme.background,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: theme.colorScheme.primary, // Color of the border
-                    width: 8, // Width of the border
+                    color: theme.colorScheme.primary,
+                    width: 8,
                   ),
                 ),
                 child: CircleAvatar(
@@ -57,9 +56,7 @@ class Report extends StatelessWidget {
               Text(
                 'Cat Dev',
                 style: TextStyle(
-                    fontSize: 15,
-                    color: theme
-                        .colorScheme.inverseSurface), // Change label color here
+                    fontSize: 15, color: theme.colorScheme.inverseSurface),
               ),
               SizedBox(height: 25),
               Text(
@@ -67,37 +64,35 @@ class Report extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color:
-                        theme.colorScheme.primary), // Change label color here
+                    color: theme.colorScheme.primary),
               ),
               Text(
                 'SPEECH MODERATION MONITOR',
-                style: TextStyle(
-                    fontSize: 16,
-                    color:
-                        theme.colorScheme.outline), // Change label color here
+                style:
+                    TextStyle(fontSize: 16, color: theme.colorScheme.outline),
               ),
               SizedBox(height: 50),
-              SizedBox(height: 30),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'About',
+                  'RESULT',
                   style: TextStyle(
-                      fontSize: 20,
-                      color: theme
-                          .colorScheme.onBackground), // Change label color here
+                      fontSize: 20, color: theme.colorScheme.onBackground),
                 ),
+              ),
+              SizedBox(height: 15),
+              Text(
+                result,
+                style: TextStyle(
+                    fontSize: 15, color: theme.colorScheme.onBackground),
               ),
               SizedBox(height: 15),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Welcome to Speak Guard - where your voice is heard, respected, and protected.\n \nSpeak Guard is your go-to app for ensuring that your spoken words remain in the realm of decency and respect.Our app empowers users to record their voices with confidence, knowing that our technology is on guard against any vulgar or inappropriate language. \n \nWith Speak Guard, you can effortlessly record your thoughts, messages, or conversations. Our goal is to create a space where communication is not only easy but also respectful and inclusive.',
+                  content,
                   style: TextStyle(
-                      fontSize: 15,
-                      color: theme
-                          .colorScheme.onBackground), // Change label color here
+                      fontSize: 15, color: theme.colorScheme.onBackground),
                 ),
               ),
             ],
