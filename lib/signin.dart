@@ -4,6 +4,8 @@ import 'package:googleapis/storage/v1.dart' as storage;
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'home.dart';
+import 'package:provider/provider.dart';
+import 'AuthenticatedClientModel.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Google Sign-In Demo'),
+          title: Text('Google Sign-In'),
         ),
         body: SignIn(),
       ),
@@ -30,6 +32,9 @@ class _SignInState extends State<SignIn> {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>[
       storage.StorageApi.devstorageReadWriteScope,
+      'https://www.googleapis.com/auth/devstorage.read_write',
+      'https://www.googleapis.com/auth/sqlservice.admin',
+      'https://www.googleapis.com/auth/cloud-platform',
     ],
   );
 
@@ -38,27 +43,33 @@ class _SignInState extends State<SignIn> {
       final GoogleSignInAccount? account = await _googleSignIn.signIn();
       if (account != null) {
         final authHeaders = await account.authHeaders;
-        final authClient = authenticatedClient(
-          http.Client(),
-          AccessCredentials(
-            AccessToken('Bearer', authHeaders['Authorization']!.split(' ').last,
-                DateTime.now().toUtc().add(Duration(hours: 1))),
-            null, // Refresh token is not available in this context
-            [storage.StorageApi.devstorageReadWriteScope],
-          ),
+        final authToken = authHeaders['Authorization']!.split(' ').last;
+        final expiry = DateTime.now()
+            .toUtc()
+            .add(Duration(hours: 1)); // Example expiration time
+
+        final AccessCredentials credentials = AccessCredentials(
+          AccessToken('Bearer', authToken, expiry),
+          null, // Refresh token is not available in this context
+          _googleSignIn.scopes,
         );
 
-        final storageApi = storage.StorageApi(authClient);
+        final authClient = authenticatedClient(
+          http.Client(),
+          credentials,
+        );
 
-        // Navigate to the Home page if sign-in was successful
+        // Update global state with authenticated client and credentials
+        Provider.of<AuthenticatedClientModel>(context, listen: false)
+            .updateCredentials(credentials, authClient);
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Home()),
         );
       }
     } catch (error) {
-      debugPrint('error: ${error} ');
-      // Show an error message if sign-in failed
+      debugPrint('error: $error');
       _showSignInError();
     }
   }

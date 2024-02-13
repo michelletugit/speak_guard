@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:speak_guard/AuthenticatedClientModel.dart';
 import 'history.dart';
 import 'settings.dart';
 import 'recording.dart';
+import 'package:provider/provider.dart';
 
 /// Flutter code sample for [NavigationBar].
 

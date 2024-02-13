@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:speak_guard/stt.dart';
-import 'home.dart';
 import 'signin.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'AuthenticatedClientModel.dart';
 
 //import 'stt.dart';
 
@@ -14,7 +14,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthenticatedClientModel(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

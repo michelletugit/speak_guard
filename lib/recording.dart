@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:provider/provider.dart';
+import 'AuthenticatedClientModel.dart';
+import 'package:googleapis/storage/v1.dart' as storage;
+import 'package:http/http.dart' as http;
 
 /// Flutter code sample for [NavigationBar].
 
@@ -159,7 +160,7 @@ class _RecordingState extends State<Recording> {
           floatingActionButton: FloatingActionButton.extended(
             label: Text('analyze'),
             onPressed: () {
-              uploadData();
+              uploadData(context);
               /*
               Navigator.push(
                 context,
@@ -173,30 +174,36 @@ class _RecordingState extends State<Recording> {
   }
 }
 
-Future<void> uploadData() async {
+Future<void> uploadData(BuildContext context) async {
   // file_picker package
-  FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-  if (result != null) {
-    File file = File(
-        result.files.single.path!); // Assuming the user picks a single file
+  final model = Provider.of<AuthenticatedClientModel>(context, listen: false);
+  final http.Client? client = model.client;
 
-    // Create a storage reference from our app
-    String fileName = result.files.single.name;
-    final storageRef = FirebaseStorage.instance
-        .ref()
-        .child(fileName); // Use the picked file's name
+  // Specify your bucket name and file details
+  const String bucketName = 'speak_guard_bucket';
+  const String objectName = 'test.txt';
+  String contentType = 'text/plain'; // MIME type for a text file
+  String content = 'Hello, World!';
 
-    try {
-      await storageRef.putFile(file);
-      final String downloadUrl = await storageRef.getDownloadURL();
-      debugPrint('Download URL: $downloadUrl');
-    } on FirebaseException catch (e) {
-      debugPrint('Error uploading file: $e');
-    }
+  if (client != null) {
+    final storageApi = storage.StorageApi(client);
+    final media = storage.Media(
+        http.ByteStream.fromBytes(content.codeUnits), content.length,
+        contentType: contentType);
+
+    // Prepare the upload request
+    final insertRequest = storage.Object()
+      ..name = objectName
+      ..contentType = contentType;
+
+    // Execute the upload
+    await storageApi.objects
+        .insert(insertRequest, bucketName, uploadMedia: media);
+
+    print('File uploaded successfully');
   } else {
-    // User canceled the picker
-    debugPrint("No file selected");
+    debugPrint("Error with client data");
   }
 
   /*
