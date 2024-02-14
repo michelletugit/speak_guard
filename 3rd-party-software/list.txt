@@ -1,0 +1,32 @@
+environment:
+  #sdk: '>=3.1.5 <4.0.0'
+  sdk: ^3.1.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  english_words: ^4.0.0
+  provider: ^6.0.0
+  speech_to_text: ^6.5.0
+  flex_color_scheme: ^7.3.1
+  firebase_core: ^2.24.2
+  firebase_storage: ^11.6.0
+  path_provider: ^2.1.2
+  file_picker: ^6.1.1
+  google_sign_in: ^6.1.6
+  googleapis: ^12.0.0
+  http: ^1.1.0
+  googleapis_auth: ^1.4.1
+  postgres: ^3.0.8
+
+  assets:
+    - assets/profile.jpg
+    - assets/audiowave.gif
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Italic-VariableFont_wght.ttf
+        - asset: fonts/Montserrat-VariableFont_wght.ttf
+

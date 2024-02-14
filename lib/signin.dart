@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// Signin class that extends to StatefulWidget for the sign in.
+/// Signin class that extends to StatefulWidget for the sign in and Sends over API scope and authenticates user.
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
