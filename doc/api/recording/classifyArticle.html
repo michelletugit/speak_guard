@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the classifyArticle function from the recording library, for the Dart programming language.">
+  <title>classifyArticle function - recording library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">speak_guard</a></li>
+    <li><a href="../recording/recording-library.html">recording</a></li>
+    <li class="self-crumb">classifyArticle function</li>
+  </ol>
+  <div class="self-name">classifyArticle</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="recording&#47;recording-library-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-function">classifyArticle</span> function 
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">classifyArticle</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="classifyArticle-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span>, </span></li>
+<li><span class="parameter" id="classifyArticle-param-content"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">content</span></span></li>
+</ol>)
+
+        
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Makes an API call to Google Cloud API to classify the user's transcript.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; classifyArticle(BuildContext context, String content) async {
+  final model = Provider.of&lt;AuthenticatedClientModel&gt;(context, listen: false);
+  final http.Client? client = model.client;
+
+  if (client == null) {
+    print(&quot;Client is not authenticated.&quot;);
+    return;
+  }
+
+  const projectId = &quot;vast-collective-413319&quot;;
+  const region = &quot;us-central1&quot;;
+  String url =
+      &#39;https:&#47;&#47;$region-aiplatform.googleapis.com&#47;v1&#47;projects&#47;$projectId&#47;locations&#47;$region&#47;publishers&#47;google&#47;models&#47;gemini-pro:streamGenerateContent&#39;;
+
+  Map&lt;String, dynamic&gt; requestBody = {
+    &quot;contents&quot;: [
+      {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;parts&quot;: [
+          {
+            &quot;text&quot;:
+                &quot;Multi-choice problem: Which of the following categories can be identified in the text?\n&quot;
+                    &quot;Political incorrectness\n&quot;
+                    &quot;Sexism\n&quot;
+                    &quot;Racism\n&quot;
+                    &quot;swear words\n&quot;
+                    &quot;Hate\n&quot;
+                    &quot;Harassment\n\n&quot;
+                    &quot;Text: $content&quot;
+          }
+        ]
+      }
+    ],
+    &quot;generation_config&quot;: {
+      &quot;maxOutputTokens&quot;: 256,
+      &quot;temperature&quot;: 0.2,
+      &quot;topP&quot;: 0.8,
+      &quot;topK&quot;: 40
+    },
+    &quot;safetySettings&quot;: [
+      {&quot;category&quot;: &quot;HARM_CATEGORY_HATE_SPEECH&quot;, &quot;threshold&quot;: &quot;BLOCK_ONLY_HIGH&quot;},
+      {
+        &quot;category&quot;: &quot;HARM_CATEGORY_DANGEROUS_CONTENT&quot;,
+        &quot;threshold&quot;: &quot;BLOCK_ONLY_HIGH&quot;
+      },
+      {
+        &quot;category&quot;: &quot;HARM_CATEGORY_SEXUALLY_EXPLICIT&quot;,
+        &quot;threshold&quot;: &quot;BLOCK_ONLY_HIGH&quot;
+      },
+      {&quot;category&quot;: &quot;HARM_CATEGORY_HARASSMENT&quot;, &quot;threshold&quot;: &quot;BLOCK_ONLY_HIGH&quot;}
+    ]
+  };
+
+  try {
+    final response = await client.post(
+      Uri.parse(url),
+      headers: {&quot;Content-Type&quot;: &quot;application&#47;json&quot;},
+      body: json.encode(requestBody),
+    );
+
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(response.body);
+
+      if (responseJson.isNotEmpty) {
+        var candidates = responseJson[0][&#39;candidates&#39;];
+        if (candidates.isNotEmpty) {
+          var jsoncontent = candidates[0][&#39;content&#39;];
+          var parts = jsoncontent[&#39;parts&#39;];
+          if (parts.isNotEmpty) {
+            var result = parts[0][&#39;text&#39;];
+            print(&quot;Extracted value: $result&quot;);
+            if (result == &quot;None of the above&quot;) {
+              result = &quot;:)&quot;;
+            }
+            print(content);
+
+            &#47;&#47; Navigate to Report after result response.
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =&gt; Report(content: content, result: result),
+              ),
+            );
+          }
+        }
+      }
+    } else {
+      print(&quot;Failed to classify article. Status code: ${response.statusCode}&quot;);
+      print(&quot;Response body: ${response.body}&quot;);
+    }
+  } catch (e) {
+    print(&quot;Error calling Vertex AI: $e&quot;);
+  }
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">speak_guard</a></li>
+    <li><a href="../recording/recording-library.html">recording</a></li>
+    <li class="self-crumb">classifyArticle function</li>
+</ol>
+
+
+    <h5>recording library</h5>
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    speak_guard
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
