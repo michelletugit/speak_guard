@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'report.dart';
 
+/// Class that represents the history tab of the app.
 class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class HistoryPage extends StatelessWidget {
                     color: theme.colorScheme.onBackground),
               ),
             ),
-            // TODO: Fetch recordings
+            // Dummy recordings are being showcased for this prototype.
             SizedBox(height: 15),
             HistoryRecording(
               title: 'Test Recording 1',
@@ -56,6 +57,7 @@ class HistoryPage extends StatelessWidget {
   }
 }
 
+/// Class that represents one singular recording showcased on the history tab.
 class HistoryRecording extends StatelessWidget {
   final String title;
   final String date;
@@ -78,6 +80,7 @@ class HistoryRecording extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
+    // Returns a dismissable card.
     return Dismissible(
       key: Key(id.toString()),
       direction: DismissDirection.endToStart,

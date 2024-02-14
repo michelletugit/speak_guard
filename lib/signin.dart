@@ -5,11 +5,11 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'home.dart';
 import 'package:provider/provider.dart';
-import 'AuthenticatedClientModel.dart';
-// import 'db.dart';
+import 'authenticatedClientModel.dart';
 
 void main() => runApp(MyApp());
 
+/// Handles the sign in of the app. Google authentification is used in our case.
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Signin class that extends to StatefulWidget for the sign in.
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
 }
 
+/// Sends over API scope and authenticates user.
 class _SignInState extends State<SignIn> {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>[
@@ -39,6 +41,7 @@ class _SignInState extends State<SignIn> {
     ],
   );
 
+  /// Calls signIn() to authenticate the user and stores the token and credentials.
   Future<void> _handleSignIn() async {
     try {
       final GoogleSignInAccount? account = await _googleSignIn.signIn();
@@ -66,6 +69,7 @@ class _SignInState extends State<SignIn> {
         Provider.of<AuthenticatedClientModel>(context, listen: false)
             .updateCredentials(credentials, authClient);
 
+        // Navigate to Home after successful signin.
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Home()),
@@ -78,6 +82,7 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  /// An error dialog will be shown in case of error.
   void _showSignInError() {
     showDialog(
       context: context,

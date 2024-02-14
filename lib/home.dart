@@ -3,8 +3,7 @@ import 'history.dart';
 import 'settings.dart';
 import 'recording.dart';
 
-/// Flutter code sample for [NavigationBar].
-
+/// Home tab of the app.
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -15,6 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentPageIndex = 0;
 
+  /// Builds the navigation bar.
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -59,6 +59,7 @@ class _HomeState extends State<Home> {
   }
 }
 
+/// Represents the home tab above the navigation bar.
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -123,7 +124,9 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Recording()),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const Recording()), // Navigate to the recording tab.
                 );
               },
               child: const Text('Record your Speech'),

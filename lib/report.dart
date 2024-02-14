@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// Report tab of the app. Showcases the result from the transcript.
 class Report extends StatelessWidget {
+  /// Content/transcript of the user.
   final String content;
+
+  /// Result from the analysis.
   final String result;
 
   const Report({Key? key, required this.content, required this.result})
@@ -79,7 +83,7 @@ class Report extends StatelessWidget {
               Text(
                 result,
                 style: TextStyle(
-                    fontSize: 15, color: theme.colorScheme.onBackground),
+                    fontSize: 18, color: theme.colorScheme.onBackground),
               ),
               SizedBox(height: 15),
               Align(

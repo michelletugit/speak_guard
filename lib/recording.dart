@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:provider/provider.dart';
-import 'AuthenticatedClientModel.dart';
+import 'authenticatedClientModel.dart';
 import 'package:googleapis/storage/v1.dart' as storage;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'report.dart';
 
+/// Recording tab of the app.
 class Recording extends StatefulWidget {
   const Recording({super.key});
 
@@ -17,9 +18,7 @@ class Recording extends StatefulWidget {
 
 class _RecordingState extends State<Recording> {
   SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
   String _lastWords = '';
-  String _words = '';
   double _confidence = 1.0;
 
   @override
@@ -32,7 +31,7 @@ class _RecordingState extends State<Recording> {
   /// This has to happen only once per app
   void _initSpeech() async {
     print("_initSpeech");
-    _speechEnabled = await _speechToText.initialize();
+    await _speechToText.initialize();
     setState(() {});
   }
 
@@ -43,15 +42,9 @@ class _RecordingState extends State<Recording> {
         pauseFor: Duration(
           seconds: 10,
         ));
-    setState(() {
-      _words += '\n$_lastWords';
-    });
   }
 
   /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
   void _stopListening() async {
     await _speechToText.stop();
     print("stopped listening");
@@ -156,6 +149,7 @@ class _RecordingState extends State<Recording> {
   }
 }
 
+/// Uploads a test txt file to the Google Cloud Storage. (Not used as of now)
 Future<void> uploadData(BuildContext context, String content) async {
   if (content.isEmpty) {
     print('No recognized words');
@@ -189,6 +183,7 @@ Future<void> uploadData(BuildContext context, String content) async {
   }
 }
 
+/// Makes an API call to Google Cloud API to classify the user's transcript.
 Future<void> classifyArticle(BuildContext context, String content) async {
   final model = Provider.of<AuthenticatedClientModel>(context, listen: false);
   final http.Client? client = model.client;
@@ -211,12 +206,12 @@ Future<void> classifyArticle(BuildContext context, String content) async {
           {
             "text":
                 "Multi-choice problem: Which of the following categories can be identified in the text?\n"
-                    "political incorrectness\n"
-                    "sexism\n"
-                    "racism\n"
+                    "Political incorrectness\n"
+                    "Sexism\n"
+                    "Racism\n"
                     "swear words\n"
-                    "hate\n"
-                    "harassment\n\n"
+                    "Hate\n"
+                    "Harassment\n\n"
                     "Text: $content"
           }
         ]
@@ -265,6 +260,7 @@ Future<void> classifyArticle(BuildContext context, String content) async {
             }
             print(content);
 
+            // Navigate to Report after result response.
             Navigator.push(
               context,
               MaterialPageRoute(
