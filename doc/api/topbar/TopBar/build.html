@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the build method from the MyApp class, for the Dart programming language.">
-  <title>build method - MyApp class - main library - Dart API</title>
+  <meta name="description" content="API docs for the build method from the TopBar class, for the Dart programming language.">
+  <title>build method - TopBar class - topbar library - Dart API</title>
 
 
   
@@ -29,8 +29,8 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">speak_guard</a></li>
-    <li><a href="../../main/main-library.html">main</a></li>
-    <li><a href="../../main/MyApp-class.html">MyApp</a></li>
+    <li><a href="../../topbar/topbar-library.html">topbar</a></li>
+    <li><a href="../../topbar/TopBar-class.html">TopBar</a></li>
     <li class="self-crumb">build method</li>
   </ol>
   <div class="self-name">build</div>
@@ -54,7 +54,7 @@
   <div
       id="dartdoc-main-content"
       class="main-content"
-      data-above-sidebar="main&#47;MyApp-class-sidebar.html"
+      data-above-sidebar="topbar&#47;TopBar-class-sidebar.html"
       data-below-sidebar="">
       <div>
 <h1><span class="kind-method">build</span> method 
@@ -104,7 +104,7 @@ and</li>
 <li>any ambient state obtained from the <code>context</code> using
 <a href="https://api.flutter.dev/flutter/widgets/BuildContext/dependOnInheritedWidgetOfExactType.html">BuildContext.dependOnInheritedWidgetOfExactType</a>.</li>
 </ul>
-<p>If a widget's <a href="../../main/MyApp/build.html">build</a> method is to depend on anything else, use a
+<p>If a widget's <a href="../../topbar/TopBar/build.html">build</a> method is to depend on anything else, use a
 <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> instead.</p>
 <p>See also:</p>
 <ul>
@@ -118,13 +118,33 @@ and</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  return MaterialApp(
-    title: &#39;Speak Guard&#39;,
-    theme: FlexThemeData.light(scheme: FlexScheme.sakura),
-    themeMode: ThemeMode.light, &#47;&#47; Theme set to light.
-
-    &#47;&#47; Sign in first before navigating to other pages.
-    home: SignIn(),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      &#47;&#47; titleText display
+      Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          titleText,
+          style: TextStyle(fontSize: 20, color: theme.colorScheme.primary),
+        ),
+      ),
+      &#47;&#47; subtitleText display
+      &#47;&#47; Check if subtitleText is not null before displaying it
+      if (subtitleText != null) ...[
+        const SizedBox(height: 40),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            subtitleText!,
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.onBackground),
+          ),
+        ),
+      ],
+    ],
   );
 }</code></pre>
 </section>
@@ -142,13 +162,13 @@ Widget build(BuildContext context) {
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">speak_guard</a></li>
-    <li><a href="../../main/main-library.html">main</a></li>
-    <li><a href="../../main/MyApp-class.html">MyApp</a></li>
+    <li><a href="../../topbar/topbar-library.html">topbar</a></li>
+    <li><a href="../../topbar/TopBar-class.html">TopBar</a></li>
     <li class="self-crumb">build method</li>
 </ol>
 
 
-    <h5>MyApp class</h5>
+    <h5>TopBar class</h5>
   </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">

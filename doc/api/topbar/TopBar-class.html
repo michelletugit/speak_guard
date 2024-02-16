@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the SignIn class from the signin library, for the Dart programming language.">
-  <title>SignIn class - signin library - Dart API</title>
+  <meta name="description" content="API docs for the TopBar class from the topbar library, for the Dart programming language.">
+  <title>TopBar class - topbar library - Dart API</title>
 
 
   
@@ -29,10 +29,10 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">speak_guard</a></li>
-    <li><a href="../signin/signin-library.html">signin</a></li>
-    <li class="self-crumb">SignIn class</li>
+    <li><a href="../topbar/topbar-library.html">topbar</a></li>
+    <li class="self-crumb">TopBar class</li>
   </ol>
-  <div class="self-name">SignIn</div>
+  <div class="self-name">TopBar</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -53,16 +53,16 @@
   <div
       id="dartdoc-main-content"
       class="main-content"
-      data-above-sidebar="signin&#47;signin-library-sidebar.html"
-      data-below-sidebar="signin&#47;SignIn-class-sidebar.html">
+      data-above-sidebar="topbar&#47;topbar-library-sidebar.html"
+      data-below-sidebar="topbar&#47;TopBar-class-sidebar.html">
       <div>
-<h1><span class="kind-class">SignIn</span> class 
+<h1><span class="kind-class">TopBar</span> class 
  
 </h1></div>
 
     
 <section class="desc markdown">
-  <p>Signin class that extends to StatefulWidget for the sign in and Sends over API scope and authenticates user.</p>
+  <p>This class represents the top bar of all the main tabs.</p>
 </section>
 
 
@@ -75,8 +75,8 @@
       <li><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></li>
         <li><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree-class.html">DiagnosticableTree</a></li>
         <li><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></li>
-        <li><a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a></li>
-      <li>SignIn</li>
+        <li><a href="https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html">StatelessWidget</a></li>
+      <li>TopBar</li>
     </ul>
   </dd>
 
@@ -96,16 +96,17 @@
     <h2>Constructors</h2>
 
     <dl class="constructor-summary-list">
-        <dt id="SignIn" class="callable">
-          <span class="name"><a href="../signin/SignIn/SignIn.html">SignIn</a></span><span class="signature">()</span>
+        <dt id="TopBar" class="callable">
+          <span class="name"><a href="../topbar/TopBar/TopBar.html">TopBar</a></span><span class="signature">(<span class="parameter" id="-param-key">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/foundation/Key-class.html">Key</a>?</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="-param-titleText"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">titleText</span>, </span><span class="parameter" id="-param-subtitleText"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">subtitleText</span>, </span><span class="parameter" id="-param-theme"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/material/ThemeData-class.html">ThemeData</a></span> <span class="parameter-name">theme</span>}</span>)</span>
         </dt>
         <dd>
           
+            <div class="constructor-modifier features">const</div>
         </dd>
     </dl>
   </section>
 
-    <section class="summary offset-anchor inherited" id="instance-properties">
+    <section class="summary offset-anchor" id="instance-properties">
       <h2>Properties</h2>
 
       <dl class="properties">
@@ -142,6 +143,39 @@
 
 </dd>
 
+        <dt id="subtitleText" class="property">
+  <span class="name"><a href="../topbar/TopBar/subtitleText.html">subtitleText</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> 
+
+</dt>
+<dd>
+  <a href="../topbar/TopBar/subtitleText.html">subtitleText</a> will be displayed below the titleText in the onBackground scheme color.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="theme" class="property">
+  <span class="name"><a href="../topbar/TopBar/theme.html">theme</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/material/ThemeData-class.html">ThemeData</a></span> 
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="titleText" class="property">
+  <span class="name"><a href="../topbar/TopBar/titleText.html">titleText</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
+
+</dt>
+<dd>
+  <a href="../topbar/TopBar/titleText.html">titleText</a> will be displayed at the top left corner in the primary scheme color.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
       </dl>
     </section>
 
@@ -151,29 +185,29 @@
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="createElement" class="callable inherited">
-  <span class="name"><a href="https://api.flutter.dev/flutter/widgets/StatefulWidget/createElement.html">createElement</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/StatefulElement-class.html">StatefulElement</a></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Creates a <a href="https://api.flutter.dev/flutter/widgets/StatefulElement-class.html">StatefulElement</a> to manage this widget's location in the tree.
-  <div class="features"><span class="feature">inherited</span></div>
-
-</dd>
-
-        <dt id="createState" class="callable">
-  <span class="name"><a href="../signin/SignIn/createState.html">createState</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; _SignInState</span>
+        <dt id="build" class="callable">
+  <span class="name"><a href="../topbar/TopBar/build.html">build</a></span><span class="signature">(<wbr><span class="parameter" id="build-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
   </span>
   
 
 </dt>
 <dd>
-  Creates the mutable state for this widget at a given location in the tree.
+  Describes the part of the user interface represented by this widget.
   <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="createElement" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/widgets/StatelessWidget/createElement.html">createElement</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/StatelessElement-class.html">StatelessElement</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a <a href="https://api.flutter.dev/flutter/widgets/StatelessElement-class.html">StatelessElement</a> to manage this widget's location in the tree.
+  <div class="features"><span class="feature">inherited</span></div>
 
 </dd>
 
@@ -323,12 +357,12 @@ tools and by <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsNode
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">speak_guard</a></li>
-    <li><a href="../signin/signin-library.html">signin</a></li>
-    <li class="self-crumb">SignIn class</li>
+    <li><a href="../topbar/topbar-library.html">topbar</a></li>
+    <li class="self-crumb">TopBar class</li>
 </ol>
 
 
-    <!--<h5>signin library</h5>-->
+    <!--<h5>topbar library</h5>-->
     <div id="dartdoc-sidebar-left-content"></div>
   </div>
 

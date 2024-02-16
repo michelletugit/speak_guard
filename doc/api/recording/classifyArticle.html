@@ -84,6 +84,7 @@
   final model = Provider.of&lt;AuthenticatedClientModel&gt;(context, listen: false);
   final http.Client? client = model.client;
 
+  &#47;&#47; Check if client is authenticated.
   if (client == null) {
     print(&quot;Client is not authenticated.&quot;);
     return;
@@ -91,6 +92,8 @@
 
   const projectId = &quot;vast-collective-413319&quot;;
   const region = &quot;us-central1&quot;;
+
+  &#47;&#47; Google Vertex AI API url.
   String url =
       &#39;https:&#47;&#47;$region-aiplatform.googleapis.com&#47;v1&#47;projects&#47;$projectId&#47;locations&#47;$region&#47;publishers&#47;google&#47;models&#47;gemini-pro:streamGenerateContent&#39;;
 
@@ -119,6 +122,8 @@
       &quot;topP&quot;: 0.8,
       &quot;topK&quot;: 40
     },
+
+    &#47;&#47; safety settings set to &quot;BLOCK_ONLY_HIGH&quot; so that the AI model accepts vulgar phrases.
     &quot;safetySettings&quot;: [
       {&quot;category&quot;: &quot;HARM_CATEGORY_HATE_SPEECH&quot;, &quot;threshold&quot;: &quot;BLOCK_ONLY_HIGH&quot;},
       {
@@ -134,6 +139,7 @@
   };
 
   try {
+    &#47;&#47; Wait for the API response.
     final response = await client.post(
       Uri.parse(url),
       headers: {&quot;Content-Type&quot;: &quot;application&#47;json&quot;},
@@ -143,12 +149,14 @@
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
+      &#47;&#47; Get the result value of the analysis.
       if (responseJson.isNotEmpty) {
         var candidates = responseJson[0][&#39;candidates&#39;];
         if (candidates.isNotEmpty) {
           var jsoncontent = candidates[0][&#39;content&#39;];
           var parts = jsoncontent[&#39;parts&#39;];
           if (parts.isNotEmpty) {
+            &#47;&#47; JSON extracted value
             var result = parts[0][&#39;text&#39;];
             print(&quot;Extracted value: $result&quot;);
             if (result == &quot;None of the above&quot;) {

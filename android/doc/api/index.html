@@ -52,18 +52,48 @@
   <div id="dartdoc-main-content" class="main-content">
       
 <section class="desc markdown">
-  <h1 id="speak_guard">speak_guard</h1>
-<p>A new Flutter project.</p>
-<h2 id="getting-started">Getting Started</h2>
-<p>This project is a starting point for a Flutter application.</p>
-<p>A few resources to get you started if this is your first Flutter project:</p>
+  <h1 id="speak-guard">Speak Guard</h1>
+<p>Speak Guard is a Flutter application to analyze user's speech through AI technology provided by Google. This application transcribes spoken words in real time and then classifies the transcript using AI.</p>
+<h2 id="features">Features</h2>
 <ul>
-<li><a href="https://docs.flutter.dev/get-started/codelab">Lab: Write your first Flutter app</a></li>
-<li><a href="https://docs.flutter.dev/cookbook">Cookbook: Useful Flutter samples</a></li>
+<li>Voice Recording: Users can record their voice directly within the app using a simple and intuitive interface.</li>
+<li>Real-Time Transcription: Speech is transcribed in real-time, allowing users to see the transcript of their spoken words immediately.</li>
+<li>AI-Powered Analysis: The transcribed text is analyzed and classified by AI.</li>
+<li>Google Authentification: This app uses google authentification to authorise users.</li>
 </ul>
-<p>For help getting started with Flutter development, view the
-<a href="https://docs.flutter.dev/">online documentation</a>, which offers tutorials,
-samples, guidance on mobile development, and a full API reference.</p>
+<h2 id="build-process">Build Process</h2>
+<ul>
+<li>Make sure you have the latest version of Flutter installed. If not, visit <a href="https://docs.flutter.dev/get-started/install">Flutter</a> for Installation.</li>
+<li>Navigate to the project directory: <code>cd speak-guard</code>.</li>
+<li>Install all dependencies: <code>flutter pub get</code>.</li>
+<li>For Android, ensure you have an Emulator set up or a physical device connected. This app was tested on an Android Emulator (Pixel 3a API 34, extension level 7, x86_64).</li>
+<li>Run the app with <code>flutter run</code>.</li>
+</ul>
+<h2 id="bugs">Bugs</h2>
+<p>As this project is part of an academic thesis, it has undergone limited testing, primarily on an Android emulator (Pixel 3a API 34, extension level 7, x86_64). Users may encounter unexpected behavior or bugs.</p>
+<h2 id="workarounds">Workarounds</h2>
+<ul>
+<li>Test User Access: Access to a test user account is restricted and can be requested by contacting the author directly. This is to ensure the safety of users and for experiencing the app without individual API credentials.</li>
+</ul>
+<h2 id="3rd-party-software">3rd-Party Software</h2>
+<p>Speak Guard relies on the following third-party libraries and APIs:</p>
+<ul>
+<li>Flutter for the application framework.</li>
+<li><a href="https://pub.dev/packages/speech_to_text">Speech-to-text</a> technology provided by <a href="https://csdcorp.com/">Csdcorp</a>.</li>
+<li><a href="https://cloud.google.com/vertex-ai?hl=en">Google Cloud Vertex AI</a> for text analysis.</li>
+<li>Other libraries for UI elements, networking, and authentification. See pubspec.yaml for a full list of dependencies.</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<ul>
+<li>Start Recording: Press the recording button to start recording your speech.</li>
+<li>Stop Recording: Press the stop button once you've finished speaking.</li>
+<li>Analyse: Press the analyse button to request a report.</li>
+<li>View Analysis: The AI analysis will be presented, showing the classification of your speech.</li>
+</ul>
+<h2 id="author">Author</h2>
+<p>Michelle Lau (<a href="mailto:e11917662@student.tuwien.ac.at">e11917662@student.tuwien.ac.at</a>)</p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>This project was developed as part of a bachelor's thesis at the University of Technology Vienna. Special thanks to my supervisor Horst Eidenberger for guidance and support throughout the project.</p>
 </section>
 
 

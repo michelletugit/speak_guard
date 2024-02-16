@@ -118,80 +118,25 @@ and</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  final ThemeData theme = Theme.of(context);
-
-  void _handleSignOut() async {
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
-    try {
-      await _googleSignIn.signOut();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =&gt; SignIn()),
-      );
-    } catch (error) {
-      print(&quot;Error signing out: $error&quot;);
-    }
-  }
-
   return Padding(
-    padding: EdgeInsets.only(top: 35, bottom: 35, left: 20, right: 20),
+    padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
     child: SingleChildScrollView(
       child: Column(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              &#39;Settings&#39;,
-              style:
-                  TextStyle(fontSize: 20, color: theme.colorScheme.primary),
-            ),
-          ),
-          SizedBox(height: 40),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.background,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: theme.colorScheme.primary,
-                width: 8,
-              ),
-            ),
-            child: CircleAvatar(
-              backgroundImage: AssetImage(&quot;assets&#47;profile.jpg&quot;),
-              radius: 50,
-            ),
-          ),
-          SizedBox(height: 15),
-          Text(
-            &#39;Cat Dev&#39;,
-            style: TextStyle(
-                fontSize: 15, color: theme.colorScheme.inverseSurface),
-          ),
-          SizedBox(height: 70),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 16),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0)),
-              minimumSize: Size(double.infinity, 50),
-              backgroundColor: theme.colorScheme.primary,
-            ),
-            onPressed: () {},
-            child: const Text(&#39;Recalibrate Voice&#39;),
-          ),
-          SizedBox(height: 50),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 16),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0)),
-              minimumSize: Size(double.infinity, 50),
-            ),
-            onPressed: _handleSignOut,
-            child: const Text(&#39;Sign Out&#39;),
-          ),
+          &#47;&#47; Top bar with settings title.
+          _buildTopBar(context),
+          const SizedBox(height: 40),
+          &#47;&#47; Display user&#39;s profile picture.
+          _buildProfileImage(context),
+          const SizedBox(height: 15),
+          &#47;&#47; Display user&#39;s name.
+          _buildProfileName(context),
+          const SizedBox(height: 70),
+          &#47;&#47; Button for recalibrating voice.
+          _buildRecalibrateVoiceButton(context),
+          const SizedBox(height: 50),
+          &#47;&#47; Button to sign out the user.
+          _buildSignOutButton(context),
         ],
       ),
     ),

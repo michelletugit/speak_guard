@@ -120,7 +120,7 @@ and</li>
 Widget build(BuildContext context) {
   final ThemeData theme = Theme.of(context);
 
-  &#47;&#47; Returns a dismissable card.
+  &#47;&#47; Returns a dismissable card with the report data.
   return Dismissible(
     key: Key(id.toString()),
     direction: DismissDirection.endToStart,
@@ -128,6 +128,7 @@ Widget build(BuildContext context) {
     child: Card(
       child: ListTile(
         contentPadding: EdgeInsets.all(15),
+        &#47;&#47; Title
         title: Text(
           title,
           style: TextStyle(
@@ -135,12 +136,14 @@ Widget build(BuildContext context) {
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.onBackground),
         ),
+        &#47;&#47; Date and duration
         subtitle: Text(
           &#39;$date ($duration)&#39;,
           style:
               TextStyle(fontSize: 13, color: theme.colorScheme.onBackground),
         ),
         onTap: () {
+          &#47;&#47; Navigate onto report page upon clicking on the card.
           Navigator.push(
             context,
             MaterialPageRoute(

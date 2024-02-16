@@ -124,32 +124,17 @@ Widget build(BuildContext context) {
     child: SingleChildScrollView(
       child: Column(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              &#39;Home&#39;,
-              style:
-                  TextStyle(fontSize: 20, color: theme.colorScheme.primary),
-            ),
+          &#47;&#47; Add a TopBar to this page
+          TopBar(
+            titleText: &#39;Home&#39;,
+            theme: Theme.of(context),
           ),
           SizedBox(height: 40),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.background,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: theme.colorScheme.primary,
-                width: 8,
-              ),
-            ),
-            child: CircleAvatar(
-              backgroundImage: AssetImage(&quot;assets&#47;profile.jpg&quot;),
-              radius: 50,
-            ),
-          ),
+
+          &#47;&#47; Profile picture
+          _buildProfileCircle(theme),
           SizedBox(height: 15),
+
           Text(
             &#39;Cat Dev&#39;,
             style: TextStyle(
@@ -168,24 +153,9 @@ Widget build(BuildContext context) {
             style: TextStyle(fontSize: 16, color: theme.colorScheme.outline),
           ),
           SizedBox(height: 50),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 18),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0)),
-              minimumSize: Size(double.infinity, 45),
-              backgroundColor: theme.colorScheme.primary,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =&gt;
-                        const Recording()), &#47;&#47; Navigate to the recording tab.
-              );
-            },
-            child: const Text(&#39;Record your Speech&#39;),
-          ),
+
+          &#47;&#47; Record button
+          _buildRecordButton(context, theme),
           SizedBox(height: 30),
           Align(
             alignment: Alignment.centerLeft,

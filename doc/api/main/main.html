@@ -87,6 +87,7 @@
 
   runApp(
     ChangeNotifierProvider(
+      &#47;&#47; Add context and client credentials for API calls.
       create: (context) =&gt; AuthenticatedClientModel(),
       child: MyApp(),
     ),
