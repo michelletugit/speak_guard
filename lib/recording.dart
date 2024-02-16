@@ -29,6 +29,8 @@ import 'dart:convert';
 import 'report.dart';
 
 /// Recording tab of the app.
+///
+/// This page includes speech to text and communicates with the Google Vertex AI API.
 class Recording extends StatefulWidget {
   const Recording({super.key});
 
@@ -38,7 +40,11 @@ class Recording extends StatefulWidget {
 
 class _RecordingState extends State<Recording> {
   SpeechToText _speechToText = SpeechToText();
+
+  /// Displayed transcription
   String _lastWords = '';
+
+  /// Confidence value of the transcript
   double _confidence = 1.0;
 
   @override
@@ -75,8 +81,11 @@ class _RecordingState extends State<Recording> {
   /// the platform returns recognized words.
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
+      // Set state of _lastWords
       _lastWords = result.recognizedWords;
       print(result.hasConfidenceRating);
+
+      // Set confidence value
       if (result.hasConfidenceRating && result.confidence > 0) {
         print("set confidence");
         _confidence = result.confidence;
@@ -94,77 +103,110 @@ class _RecordingState extends State<Recording> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: BackButton(
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
+                // Back button that navigates the user back to home.
+                _buildBackButton(theme),
                 SizedBox(height: 40),
-                Text(
-                  'Speak Guard',
-                  style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary),
-                ),
-                Text(
-                  'Speak into the microphone',
-                  style:
-                      TextStyle(fontSize: 16, color: theme.colorScheme.outline),
-                ),
-                SizedBox(height: 50),
-                Text(
-                  'Please speak clearly',
-                  style:
-                      TextStyle(fontSize: 10, color: theme.colorScheme.outline),
-                ),
+
+                // UI elements
+                ..._buildTextWidgets(theme),
                 SizedBox(height: 20),
-                if (_speechToText.isListening)
-                  Image.asset(
-                    "assets/audiowave.gif",
-                  ),
+
+                // Recording button
+                _buildRecordingButton(theme),
+
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed:
-                      // If not yet listening for speech start, otherwise stop
-                      _speechToText.isNotListening
-                          ? _startListening
-                          : _stopListening,
-                  child: Icon(_speechToText.isNotListening
-                      ? Icons.pause
-                      : Icons.play_arrow_rounded),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%',
-                  style:
-                      TextStyle(fontSize: 15, color: theme.colorScheme.outline),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  'Recognized words:',
-                  style:
-                      TextStyle(fontSize: 15, color: theme.colorScheme.outline),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  _lastWords,
-                  style:
-                      TextStyle(fontSize: 14, color: theme.colorScheme.outline),
-                ),
-                SizedBox(height: 20),
+
+                // Update confidence value and recognized words.
+                ..._buildConfidenceAndWords(theme),
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton.extended(
-            label: Text('analyze'),
-            onPressed: () {
-              classifyArticle(context, _lastWords);
-            },
-          ),
+          floatingActionButton: _buildAnalyseButton(context),
         ),
       ),
+    );
+  }
+
+  /// Builds backbutton to go back to the previous page.
+  Widget _buildBackButton(ThemeData theme) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: BackButton(color: theme.colorScheme.primary),
+    );
+  }
+
+  /// Builds the UI text elements of the recording page.
+  ///
+  /// Displays the audio wave in GIF format while STT is transcribing.
+  List<Widget> _buildTextWidgets(ThemeData theme) {
+    return [
+      Text(
+        'Speak Guard',
+        style: TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.primary),
+      ),
+      Text(
+        'Speak into the microphone',
+        style: TextStyle(fontSize: 16, color: theme.colorScheme.outline),
+      ),
+      SizedBox(height: 50),
+      Text(
+        'Please speak clearly',
+        style: TextStyle(fontSize: 10, color: theme.colorScheme.outline),
+      ),
+      SizedBox(height: 20),
+      // Show audiowave.gif if STT is listening / user is speaking.
+      if (_speechToText.isListening) Image.asset("assets/audiowave.gif"),
+      SizedBox(height: 20),
+    ];
+  }
+
+  /// Builds the recording button and adjusts the button icon.
+  ///
+  /// Toggles listening based on whether stt is listening right now.
+  Widget _buildRecordingButton(ThemeData theme) {
+    return ElevatedButton(
+      onPressed: _speechToText.isListening ? _stopListening : _startListening,
+      child: Icon(
+          _speechToText.isListening ? Icons.pause : Icons.play_arrow_rounded),
+    );
+  }
+
+  /// Builds and showcases the confidence value and transcribed words in UI elements.
+  List<Widget> _buildConfidenceAndWords(ThemeData theme) {
+    return [
+      Text(
+        // Showcase confidence value in percentage.
+        'Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%',
+        style: TextStyle(fontSize: 15, color: theme.colorScheme.outline),
+      ),
+      SizedBox(height: 5),
+      Text(
+        'Recognized words:',
+        style: TextStyle(fontSize: 15, color: theme.colorScheme.outline),
+      ),
+      SizedBox(height: 5),
+      // Live transcription.
+      Text(
+        _lastWords,
+        style: TextStyle(fontSize: 14, color: theme.colorScheme.outline),
+      ),
+      SizedBox(height: 20),
+    ];
+  }
+
+  /// Builds the analyse button.
+  ///
+  /// Calls classifyArticle on pressed, which calls the Google API.
+  Widget _buildAnalyseButton(BuildContext context) {
+    return FloatingActionButton.extended(
+      label: Text('analyze'),
+      onPressed: () {
+        // classifyArticle to analyse speech.
+        classifyArticle(context, _lastWords);
+      },
     );
   }
 }
@@ -208,6 +250,7 @@ Future<void> classifyArticle(BuildContext context, String content) async {
   final model = Provider.of<AuthenticatedClientModel>(context, listen: false);
   final http.Client? client = model.client;
 
+  // Check if client is authenticated.
   if (client == null) {
     print("Client is not authenticated.");
     return;
@@ -215,6 +258,8 @@ Future<void> classifyArticle(BuildContext context, String content) async {
 
   const projectId = "vast-collective-413319";
   const region = "us-central1";
+
+  // Google Vertex AI API url.
   String url =
       'https://$region-aiplatform.googleapis.com/v1/projects/$projectId/locations/$region/publishers/google/models/gemini-pro:streamGenerateContent';
 
@@ -243,6 +288,8 @@ Future<void> classifyArticle(BuildContext context, String content) async {
       "topP": 0.8,
       "topK": 40
     },
+
+    // safety settings set to "BLOCK_ONLY_HIGH" so that the AI model accepts vulgar phrases.
     "safetySettings": [
       {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_ONLY_HIGH"},
       {
@@ -258,6 +305,7 @@ Future<void> classifyArticle(BuildContext context, String content) async {
   };
 
   try {
+    // Wait for the API response.
     final response = await client.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},
@@ -267,12 +315,14 @@ Future<void> classifyArticle(BuildContext context, String content) async {
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
+      // Get the result value of the analysis.
       if (responseJson.isNotEmpty) {
         var candidates = responseJson[0]['candidates'];
         if (candidates.isNotEmpty) {
           var jsoncontent = candidates[0]['content'];
           var parts = jsoncontent['parts'];
           if (parts.isNotEmpty) {
+            // JSON extracted value
             var result = parts[0]['text'];
             print("Extracted value: $result");
             if (result == "None of the above") {

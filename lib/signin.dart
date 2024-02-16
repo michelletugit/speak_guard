@@ -127,6 +127,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Center(
+      // Button for signing in.
       child: ElevatedButton(
         onPressed: _handleSignIn,
         child: Text('Sign in with Google'),

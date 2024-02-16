@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'history.dart';
 import 'settings.dart';
 import 'recording.dart';
+import 'topbar.dart';
 
 /// Home tab of the app.
 class Home extends StatefulWidget {
@@ -34,37 +35,50 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentPageIndex = 0;
 
+  /// Builds the bottom navigation bar of the app.
+  ///
+  /// Allows users to navigate between Home, History and Settings.
+  Widget _buildNavigationBar(ThemeData theme) {
+    return NavigationBar(
+      onDestinationSelected: (int index) {
+        setState(() {
+          currentPageIndex = index;
+        });
+      },
+      indicatorColor: theme.colorScheme.primary,
+      selectedIndex: currentPageIndex,
+      destinations: const <NavigationDestination>[
+        // Home
+        NavigationDestination(
+          selectedIcon: Icon(Icons.home_rounded),
+          icon: Icon(Icons.home_outlined),
+          label: 'Home',
+        ),
+
+        // History
+        NavigationDestination(
+          icon: Icon(Icons.history_outlined),
+          selectedIcon: Icon(Icons.history_rounded),
+          label: 'History',
+        ),
+
+        // Settings
+        NavigationDestination(
+          icon: Icon(Icons.settings_outlined),
+          selectedIcon: Icon(Icons.settings),
+          label: 'Settings',
+        ),
+      ],
+    );
+  }
+
   /// Builds the navigation bar.
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: theme.colorScheme.primary,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home_rounded),
-            icon: Icon(Icons.home_rounded),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Badge(child: Icon(Icons.history_rounded)),
-            label: 'History',
-          ),
-          NavigationDestination(
-            icon: Badge(
-              child: Icon(Icons.settings),
-            ),
-            label: 'Settings',
-          ),
-        ],
-      ),
+      // Add the bottom navigation bar to navigate through Home, History and Settings.
+      bottomNavigationBar: _buildNavigationBar(theme),
       body: <Widget>[
         /// Home page
         HomePage(),
@@ -89,32 +103,17 @@ class HomePage extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Home',
-                style:
-                    TextStyle(fontSize: 20, color: theme.colorScheme.primary),
-              ),
+            // Add a TopBar to this page
+            TopBar(
+              titleText: 'Home',
+              theme: Theme.of(context),
             ),
             SizedBox(height: 40),
-            Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.background,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: theme.colorScheme.primary,
-                  width: 8,
-                ),
-              ),
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/profile.jpg"),
-                radius: 50,
-              ),
-            ),
+
+            // Profile picture
+            _buildProfileCircle(theme),
             SizedBox(height: 15),
+
             Text(
               'Cat Dev',
               style: TextStyle(
@@ -133,24 +132,9 @@ class HomePage extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: theme.colorScheme.outline),
             ),
             SizedBox(height: 50),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 18),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0)),
-                minimumSize: Size(double.infinity, 45),
-                backgroundColor: theme.colorScheme.primary,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const Recording()), // Navigate to the recording tab.
-                );
-              },
-              child: const Text('Record your Speech'),
-            ),
+
+            // Record button
+            _buildRecordButton(context, theme),
             SizedBox(height: 30),
             Align(
               alignment: Alignment.centerLeft,
@@ -174,4 +158,45 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Builds the record button and navigates the user to the recording page after press.
+Widget _buildRecordButton(BuildContext context, ThemeData theme) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      textStyle: const TextStyle(fontSize: 18),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      minimumSize: const Size(double.infinity, 45),
+      backgroundColor: theme.colorScheme.primary,
+    ),
+
+    // Navigate user to the recording page after press.
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Recording()),
+      );
+    },
+    child: const Text('Record your Speech'),
+  );
+}
+
+/// Returns the profile picture in circle.
+Widget _buildProfileCircle(ThemeData theme) {
+  return Container(
+    alignment: Alignment.center,
+    padding: const EdgeInsets.all(2),
+    decoration: BoxDecoration(
+      color: theme.colorScheme.background,
+      shape: BoxShape.circle,
+      border: Border.all(
+        color: theme.colorScheme.primary,
+        width: 8,
+      ),
+    ),
+    child: const CircleAvatar(
+      backgroundImage: AssetImage("assets/profile.jpg"),
+      radius: 50,
+    ),
+  );
 }

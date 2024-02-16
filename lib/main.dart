@@ -36,6 +36,7 @@ void main() async {
 
   runApp(
     ChangeNotifierProvider(
+      // Add context and client credentials for API calls.
       create: (context) => AuthenticatedClientModel(),
       child: MyApp(),
     ),
@@ -51,6 +52,8 @@ class MyApp extends StatelessWidget {
       title: 'Speak Guard',
       theme: FlexThemeData.light(scheme: FlexScheme.sakura),
       themeMode: ThemeMode.light, // Theme set to light.
+
+      // Sign in first before navigating to other pages.
       home: SignIn(),
     );
   }

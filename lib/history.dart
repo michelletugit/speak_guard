@@ -20,6 +20,7 @@
 
 import 'package:flutter/material.dart';
 import 'report.dart';
+import 'topbar.dart';
 
 /// Class that represents the history tab of the app.
 class HistoryPage extends StatelessWidget {
@@ -31,27 +32,16 @@ class HistoryPage extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'History',
-                style:
-                    TextStyle(fontSize: 20, color: theme.colorScheme.primary),
-              ),
+            // Add a TopBar to this page
+            TopBar(
+              titleText: 'History',
+              subtitleText: 'Speech Recordings',
+              theme: Theme.of(context),
             ),
-            SizedBox(height: 40),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Speech Recordings',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onBackground),
-              ),
-            ),
-            // Dummy recordings are being showcased for this prototype.
             SizedBox(height: 15),
+            // Dummy recordings are being showcased for this prototype.
+            // Constructors
+            // This recording has a positive feedback.
             HistoryRecording(
               title: 'Test Recording 1',
               duration: '60 sec',
@@ -62,6 +52,7 @@ class HistoryPage extends StatelessWidget {
               result: ":)",
             ),
             SizedBox(height: 15),
+            // This recording has a negative feedback, categorized as "harassment".
             HistoryRecording(
               title: 'Test Recording 2',
               duration: '120 sec',
@@ -79,6 +70,14 @@ class HistoryPage extends StatelessWidget {
 
 /// Class that represents one singular recording showcased on the history tab.
 class HistoryRecording extends StatelessWidget {
+  /// Data of a recording.
+  ///
+  /// [title] Title of the recording.
+  /// [date] Date of the recording.
+  /// [duration] Duration of the recording.
+  /// [id] Unique ID of the recording.
+  /// [content] Transcription of the recording.
+  /// [result] Result of the AI analysis.
   final String title;
   final String date;
   final String duration;
@@ -86,6 +85,7 @@ class HistoryRecording extends StatelessWidget {
   final String content;
   final String result;
 
+  /// Constructor of the class.
   const HistoryRecording({
     Key? key,
     required this.title,
@@ -100,7 +100,7 @@ class HistoryRecording extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    // Returns a dismissable card.
+    // Returns a dismissable card with the report data.
     return Dismissible(
       key: Key(id.toString()),
       direction: DismissDirection.endToStart,
@@ -108,6 +108,7 @@ class HistoryRecording extends StatelessWidget {
       child: Card(
         child: ListTile(
           contentPadding: EdgeInsets.all(15),
+          // Title
           title: Text(
             title,
             style: TextStyle(
@@ -115,12 +116,14 @@ class HistoryRecording extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onBackground),
           ),
+          // Date and duration
           subtitle: Text(
             '$date ($duration)',
             style:
                 TextStyle(fontSize: 13, color: theme.colorScheme.onBackground),
           ),
           onTap: () {
+            // Navigate onto report page upon clicking on the card.
             Navigator.push(
               context,
               MaterialPageRoute(

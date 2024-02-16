@@ -1,6 +1,6 @@
 # Speak Guard
 
-Speak Guard is a Flutter application to analyze users' speech through AI technology provided by Google. This application aims to transcribe spoken words in real time and then classify the transcript using AI, providing users with insights into their speech patterns.
+Speak Guard is a Flutter application to analyze user's speech through AI technology provided by Google. This application transcribes spoken words in real time and then classifies the transcript using AI.
 
 ## Features
 
